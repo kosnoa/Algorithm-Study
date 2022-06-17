@@ -24,37 +24,47 @@ int main()
 
         string s2;
         cin >> s2;
-        vector<int> v;
-        
+        vector<string> v;
 
-        for (int i=0; i<s2.size(); i++)
+        for (int i = 0; i < s2.size(); i++)
         {
-            string s3;
-            if (s[i] == '[')
+            string sub;
+            int a = 0;
+            if (s2[i] == '[')
             {
-                while (s[i] != ',')
+                while (s2[i] != ',')
                 {
+                    a++;
                     i++;
-                    s3 = s[i];
                 }
-                
-                v.push_back(atoi(s3.c_str()));
-            }
-            
-            if (s[i] == ',')
-            {
-                i++;
-                while (s[i] != ',' || s[i] != ']')
-                {
-                    i++;
-                    s3 = s[i];
-                }
-                
-                v.push_back(atoi(s3.c_str()));
-            }   
-        }
 
+                sub = s2.substr(i - a + 1, a - 1);
+
+                v.push_back(sub);
+            }
+
+            if (s2[i - 1] == ',')
+            {
+                while (s2[i] != ',')
+                {
+                    if (s2[i + 1] == ']')
+                    {
+                        a++;
+                        i++;
+                        break;
+                    }
+
+                    a++;
+                    i++;
+                }
+
+                sub = s2.substr(i - a, a);
+
+                v.push_back(sub);
+            }
+        }
     }
+    
 
     return 0;
 }

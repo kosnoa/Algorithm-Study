@@ -25,23 +25,35 @@ int main()
                 i++;
             }
 
-            v.push_back(s2.substr(i - a + 1, i - 1));
+            sub = s2.substr(i - a + 1, a-1);
+
+            v.push_back(sub);
         }
-        else if (s2[i - 1] == ',')
+
+        if (s2[i - 1] == ',')
         {
-            while (s2[i] != ',' || s2[i] != ']')
+            while (s2[i] != ',')
             {
+                if (s2[i + 1] == ']')
+                {
+                    a++;
+                    i++;
+                    break;
+                }
+
                 a++;
                 i++;
             }
 
-            v.push_back(s2.substr(i - a + 1, i - 1));
+            sub = s2.substr(i - a, a);
+
+            v.push_back(sub);
         }
     }
 
-    for (auto i:v)
+    for (int i = 0; i < v.size(); i++)
     {
-        cout << i << '\n';
+        cout << v[i] << '\n';
     }
 
     return 0;
