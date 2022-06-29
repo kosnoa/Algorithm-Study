@@ -24,11 +24,22 @@ int main()
 
         string s2;
         cin >> s2;
-        vector<string> v;
+
+
+        if (n == 0 && s[0] == 'R')
+        {
+            cout << "[]" << '\n';
+            continue;
+        }
+        else if (n == 0 && s[0] == 'D')
+        {
+            cout << "error" << '\n';
+            continue;
+        }
 
         for (int i = 0; i < s2.size(); i++)
         {
-            string sub;
+
             int a = 0;
             if (s2[i] == '[')
             {
@@ -38,12 +49,9 @@ int main()
                     i++;
                 }
 
-                sub = s2.substr(i - a + 1, a - 1);
-
-                v.push_back(sub);
+                dq.push_back(stoi(s2.substr(i - a + 1, a - 1)));
             }
-
-            if (s2[i - 1] == ',')
+            else if (s2[i - 1] == ',')
             {
                 while (s2[i] != ',')
                 {
@@ -58,13 +66,98 @@ int main()
                     i++;
                 }
 
-                sub = s2.substr(i - a, a);
+                dq.push_back(stoi(s2.substr(i - a, a)));
+            }
+        }
 
-                v.push_back(sub);
+        bool flag = true;
+        bool check = false;
+
+        for (int i = 0; i < s.size(); i++)
+        {
+            if (s[i] == 'R')
+            {
+                if (flag)
+                {
+                    flag = false;
+                }
+                else
+                {
+                    flag = true;
+                }
+            }
+            else if (s[i] == 'D')
+            {
+                if (flag)
+                {
+                    if (dq.empty())
+                    {
+                        cout << "error" << '\n';
+                        check = true;
+                        break;
+                    }
+                    else
+                    {
+                        dq.pop_front();
+                    }
+                }
+                else
+                {
+                    if (dq.empty())
+                    {
+                        cout << "error" << '\n';
+                        check = true;
+                        break;
+                    }
+                    else
+                    {
+                        dq.pop_back();
+                    }
+                }
+            }
+        }
+
+        if(check)
+        {
+            continue;
+        }
+        
+
+        if (!flag)
+        {
+            reverse(dq.rbegin(), dq.rend());
+        }
+
+        int tmp = dq.size();
+        int tmp2 = 0;
+
+        if (dq.empty())
+        {
+            cout << "[]" << '\n';
+        }
+        else
+        {
+            for (int i = 0; i < tmp; i++)
+            {
+                if (i == 0)
+                {
+                    cout << '[';
+                }
+                tmp2++;
+                cout << dq.front();
+                dq.pop_front();
+                if (tmp2 == tmp)
+                {
+                    cout << ']' << '\n';
+                    break;
+                }
+                else
+                {
+                    cout << ',';
+                }
             }
         }
     }
-    
 
     return 0;
 }
