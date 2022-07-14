@@ -6,11 +6,12 @@ typedef long long ll;
 typedef unsigned long long llu;
 
 vector<int> v;
+int repNum = 0, save = 0;
+int low = v[0];
+int high = v[v.size() - 1];
 
-void BinarySearch(int len, int target)
+void BinarySearch(int len)
 {
-    int low = (target + v[0]) / 2;
-    int high = (target + v[v.size() - 1]) / 2;
     int mid;
 
     while (low <= high)
@@ -18,22 +19,14 @@ void BinarySearch(int len, int target)
         int low_tmp = 0, mid_tmp = 0, high_tmp = 0;
         mid = (low + high) / 2;
 
-        for (int i=0; i<v.size(); i++)
+        for (int i = 0; i < v.size(); i++)
         {
-            low_tmp += abs(low-v[i]);
-            mid_tmp += abs(mid-v[i]);
-            high_tmp += abs(high-v[i]);
+            low_tmp += abs(low - v[i]);
+            mid_tmp += abs(mid - v[i]);
+            high_tmp += abs(high - v[i]);
         }
 
-        if (mid_tmp < low_tmp && mid_tmp < high_tmp)
-        {
-            cout << mid << '\n';
-            break;
-        }
-        else if (mid_tmp > low_tmp && high_tmp > low_tmp)
-        {
-            mid = low;
-        }
+        
     }
 }
 
@@ -63,7 +56,43 @@ int main()
 
     avg /= v.size();
 
-    BinarySearch(v.size(), avg);
+    int low_tmp = 0, mid_tmp = 0, high_tmp = 0;
+
+    for (int i = 0; i < v.size(); i++)
+    {
+        low_tmp += abs(low - v[i]);
+        mid_tmp += abs(avg - v[i]);
+        high_tmp += abs(high - v[i]);
+    }
+
+    if (low_tmp == high_tmp)
+    {
+        cout << low << '\n';
+    }
+
+    int tmp = min(low_tmp, mid_tmp, high_tmp);
+
+    if (tmp == low_tmp)
+    {
+        repNum = low_tmp;
+    }
+    else if (tmp == high_tmp)
+    {
+        repNum = high_tmp;
+        low = avg + 1;
+        BinarySearch(v.size());
+    }
+    else if (tmp == mid_tmp)
+    {
+        if (low_tmp < high_tmp)
+        {
+            high = avg - 1;
+            BinarySearch(v.size());
+        }
+        else
+        {
+        }
+    }
 
     return 0;
 }
