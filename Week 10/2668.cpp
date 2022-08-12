@@ -1,28 +1,30 @@
 /* Code By kosnoa
 GitHub : kosnoa */
 
-// 숙제
+
 #include <bits/stdc++.h>
 using namespace std;
 typedef long long ll;
 typedef unsigned long long llu;
 
-int arr[3][105];
-bool visited[3][105];
-int dx[] = {-1, 0, 1, 0};
-int dy[] = {0, 1, 0, -1};
-int n, c;
+int arr[105];
+int visited[105];
+vector<int> res;
+int n;
 
 // 사이클을 찾는다
 
-void dfs(int x, int y)
+void dfs(int start, int cur)
 {
-    visited[x][y] = true;
-
-    for (int i=0; i<4; i++)
+    if (visited[cur] == 0)
     {
-        int nx = x+dx[i];
-        int ny = x+dy[i];
+        visited[cur] = start; 
+        dfs(start, arr[cur]); 
+    }
+    else if(start == cur)
+    {
+        res.push_back(start);
+        return;
     }
 }
 
@@ -32,13 +34,26 @@ int main()
     ios_base::sync_with_stdio(false), cin.tie(nullptr);
 
     cin >> n;
+
     
-    for (int i=1; i<2; i++)
+    for (int i=1; i<=n; i++)
     {
-        for (int j=1; j<=n; j++)
-        {
-            arr[i][j] = j;
-        }
+        cin >> arr[i];
+    }
+
+    for (int i=1; i<=n; i++)
+    {
+        memset(visited, 0, sizeof(visited));
+        dfs(i, i);
+    }
+    
+    cout << res.size() << '\n';
+
+    sort(res.begin(), res.end());
+
+    for (int i=0; i<res.size(); i++)
+    {
+        cout << res[i] << '\n';
     }
 
     return 0;
