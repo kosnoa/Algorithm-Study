@@ -11,7 +11,7 @@ int tmp[126][126];
 bool visited[126][126];
 int dx[] = {-1, 0, 1, 0};
 int dy[] = {0, 1, 0, -1};
-int n, cnt = 0;
+int n, cnt = 1;
 queue<pair<int, int>> qp;
 
 void bfs(int x, int y)
@@ -45,9 +45,10 @@ int main()
 {
     ios_base::sync_with_stdio(false), cin.tie(nullptr);
 
-    while (cin >> n)
+    while (1)
     {
-        cnt++;
+        cin >> n;
+
         if (n == 0)
         {
             break;
@@ -66,6 +67,7 @@ int main()
 
             cout << "Problem " << cnt << ": " << tmp[n - 1][n - 1] << '\n';
 
+            cnt++;
             memset(arr, 0, sizeof(arr));
             memset(tmp, 0, sizeof(tmp));
             memset(visited, false, sizeof(visited));
