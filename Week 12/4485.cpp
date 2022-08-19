@@ -8,7 +8,6 @@ typedef unsigned long long llu;
 
 int arr[126][126];
 int tmp[126][126];
-bool visited[126][126];
 int dx[] = {-1, 0, 1, 0};
 int dy[] = {0, 1, 0, -1};
 int n, cnt = 1;
@@ -16,8 +15,6 @@ queue<pair<int, int>> qp;
 
 void bfs(int x, int y)
 {
-    tmp[x][y] = arr[x][y];
-    visited[x][y] = true;
     qp.push({x, y});
 
     while (!qp.empty())
@@ -26,16 +23,32 @@ void bfs(int x, int y)
         int y = qp.front().second;
         qp.pop();
 
-        for (int i = 0; i < 4; i++)
-        {
-            int nx = x + dx[i];
-            int ny = y + dy[i];
 
-            if (0 <= nx && nx < n && 0 <= ny && ny < n)
+        if (x == n - 1 && y == n - 1)
+        {
+            while(!qp.empty())
             {
-                visited[nx][ny] = true;
-                tmp[nx][ny] += arr[x][y];
-                qp.push({nx, ny});
+                qp.pop();
+            }
+            return;
+        }
+        else
+        {
+            for (int i = 0; i < 4; i++)
+            {
+                int nx = x + dx[i];
+                int ny = y + dy[i];
+
+                if (0 <= nx && nx < n && 0 <= ny && ny < n)
+                {
+                    tmp[nx][ny] = min(arr[nx][ny] + tmp[x][y], tmp[nx][ny]);
+                    // if(nx==2 && ny==1)
+                    // {
+                    //     cout << "============\n";
+                    //     cout << arr[nx][ny]+tmp[x][y] << ' ' << tmp[nx][ny] << '\n';
+                    // }
+                    qp.push({nx, ny});
+                }
             }
         }
     }
@@ -45,7 +58,7 @@ int main()
 {
     ios_base::sync_with_stdio(false), cin.tie(nullptr);
 
-    while (1)
+    while (true)
     {
         cin >> n;
 
@@ -55,6 +68,7 @@ int main()
         }
         else
         {
+            
             for (int i = 0; i < n; i++)
             {
                 for (int j = 0; j < n; j++)
@@ -63,14 +77,17 @@ int main()
                 }
             }
 
+            fill(&tmp[0][0], &tmp[125][126], 1126);
+            tmp[0][0] = arr[0][0];
+
+
             bfs(0, 0);
 
             cout << "Problem " << cnt << ": " << tmp[n - 1][n - 1] << '\n';
 
             cnt++;
             memset(arr, 0, sizeof(arr));
-            memset(tmp, 0, sizeof(tmp));
-            memset(visited, false, sizeof(visited));
+            fill(&tmp[0][0], &tmp[125][126], 1126);
         }
     }
 
