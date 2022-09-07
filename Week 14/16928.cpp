@@ -9,13 +9,9 @@ typedef unsigned long long llu;
 queue<pair<ll, ll>> qp;
 vector<pair<ll, ll>> ladder;
 vector<pair<ll, ll>> snake;
+bool check[105];
 int n, m;
 
-/*
-1. 올라가는 경우 확인
-2. 내려가는 경우 확인
-3. 6인 경우 확인
-*/
 
 int bfs(int x)
 {
@@ -23,60 +19,51 @@ int bfs(int x)
 
     while (!qp.empty())
     {
-        // 이 루프가 무한으로 돌고 있음
         pair<ll, ll> cur = qp.front();
         qp.pop();
 
         if (cur.first == 100)
         {
-            return cur.second;
+            return cur.second - 1;
         }
-
-        bool visit1 = false;
-        bool visit2 = false;
 
         for (int i = 1; i <= 6; i++)
         {
             for (int j = 0; j < n; j++)
             {
-                if (ladder[j].first == i + cur.first)
+                if (ladder[j].first == i + cur.first && !check[ladder[j].first])
                 {
-                    cur.first = ladder[j].second;
-                    cur.second++;
-                    qp.push({cur.first, cur.second});
-                    visit1 = true;
+                    check[ladder[j].first] = true;
+                    check[ladder[j].second] = true;
+                    int tmp = cur.second + 1;
+                    qp.push({ladder[j].second, tmp});
                     break;
                 }
             }
 
-            if (!visit1)
+            for (int j = 0; j < m; j++)
             {
-                for (int j = 0; j < m; j++)
+                if (snake[j].first == i + cur.first && !check[snake[j].first])
                 {
-                    if (snake[j].first == i + cur.first)
-                    {
-                        cur.first = snake[j].second;
-                        cur.second++;
-                        qp.push({cur.first, cur.second});
-                        visit2 = true;
-                        break;
-                    }
+                    check[snake[j].first] = true;
+                    check[snake[j].second] = true;
+                    int tmp = cur.second + 1;
+                    qp.push({snake[j].second, tmp});
+                    break;
                 }
             }
 
-            if (!visit1 && !visit2 && i + cur.first == 100)
+            if (i + cur.first == 100)
             {
-                cur.second++;
                 return cur.second;
             }
 
-            if (!visit1 && !visit2 && i == 6)
+            if (!check[cur.first + i])
             {
-                cur.first += i;
-                cur.second++;
-                qp.push({cur.first, cur.second});
+                check[cur.first + i] = true;
+                int tmp = cur.second + 1;
+                qp.push({cur.first + i, tmp});
             }
-
         }
     }
 
