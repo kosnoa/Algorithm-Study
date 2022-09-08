@@ -2,6 +2,7 @@
 GitHub: kosnoa */
 
 #include <bits/stdc++.h>
+
 using namespace std;
 typedef long long ll;
 typedef unsigned long long llu;
@@ -23,30 +24,16 @@ void bfs(int x, int y)
         int y = qp.front().second;
         qp.pop();
 
-
-        if (x == n - 1 && y == n - 1)
+        for (int i = 0; i < 4; i++)
         {
-            while(!qp.empty())
-            {
-                qp.pop();
-            }
-            return;
-        }
-        else
-        {
-            for (int i = 0; i < 4; i++)
-            {
-                int nx = x + dx[i];
-                int ny = y + dy[i];
+            int nx = x + dx[i];
+            int ny = y + dy[i];
 
-                if (0 <= nx && nx < n && 0 <= ny && ny < n)
+            if (0 <= nx && nx < n && 0 <= ny && ny < n)
+            {
+                if (tmp[nx][ny] > arr[nx][ny] + tmp[x][y])
                 {
-                    tmp[nx][ny] = min(arr[nx][ny] + tmp[x][y], tmp[nx][ny]);
-                    // if(nx==2 && ny==1)
-                    // {
-                    //     cout << "============\n";
-                    //     cout << arr[nx][ny]+tmp[x][y] << ' ' << tmp[nx][ny] << '\n';
-                    // }
+                    tmp[nx][ny] = arr[nx][ny] + tmp[x][y];
                     qp.push({nx, ny});
                 }
             }
@@ -68,7 +55,6 @@ int main()
         }
         else
         {
-            
             for (int i = 0; i < n; i++)
             {
                 for (int j = 0; j < n; j++)
@@ -79,7 +65,6 @@ int main()
 
             fill(&tmp[0][0], &tmp[125][126], 1126);
             tmp[0][0] = arr[0][0];
-
 
             bfs(0, 0);
 
