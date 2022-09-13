@@ -8,59 +8,60 @@ using namespace std;
 typedef long long ll;
 typedef unsigned long long llu;
 
-queue<tuple<ll, ll, ll>> qt;
+queue <pair<ll, ll>> qp;
 bool check[500005];
 ll n, k;
 
 // 무한출력
+// 케이스를 나눠서 계산
 
 int bfs(int x)
 {
-    qt.push(make_tuple(x, 0, 0));
+    qp.push({x, 0});
 
-    while (!qt.empty())
+    while (!qp.empty())
     {
         ll tmp = k;
-        tuple<ll, ll, ll> cur = qt.front();
-        qt.pop();
+        pair<ll, ll> cur = qp.front();
+        qp.pop();
 
-        for (int i = 1; i <= get<2>(cur); i++)
+        for (int i = 1; i <= cur.second; i++)
         {
             tmp += i;
         }
 
-        cout << get<0>(cur) << ' ' << get<1>(cur) << ' ' << get<2>(cur) << ' ' << tmp << '\n';
+        // cout << cur.first << ' ' << cur.second << ' ' << tmp;
 
-        if (get<0>(cur) == tmp)
+        if (cur.first == tmp && tmp > 500000)
         {
-            return get<1>(cur);
+            return cur.second;
         }
 
-        if (get<0>(cur) > 500000 || get<0>(cur) < 0)
+        if (cur.first > 500000 || cur.first < 0)
         {
             return -1;
         }
 
-        int x1 = get<0>(cur) - 1;
-        int x2 = get<0>(cur) + 1;
-        int x3 = get<0>(cur) * 2;
+        int x1 = cur.first - 1;
+        int x2 = cur.first + 1;
+        int x3 = cur.first * 2;
 
         if (x1 >= 0 && !check[x1])
         {
             check[x1] = true;
-            qt.push(make_tuple(x2, get<1>(cur) + 1, get<2>(cur) + 1));
+            qp.push({x1, cur.second + 1});
         }
 
         if (x2 <= tmp && !check[x2])
         {
             check[x2] = true;
-            qt.push(make_tuple(x2, get<1>(cur) + 1, get<2>(cur) + 1));
+            qp.push({x2, cur.second + 1});
         }
 
-        if (x3 <= tmp + 1 && !check[x3])
+        if (x3 <= 500000 && !check[x3])
         {
             check[x3] = true;
-            qt.push(make_tuple(x3, get<1>(cur) + 1, get<2>(cur) + 1));
+            qp.push({x3, cur.second + 1});
         }
     }
 
