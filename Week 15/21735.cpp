@@ -25,7 +25,7 @@ void bfs()
         ll loc1 = get<1>(cur) + 1;
         ll loc2 = get<1>(cur) + 2;
 
-        if (loc1 >= n || loc2 > n || get<2>(cur) >= m)
+        if (loc1 == n || loc2 == m)
         {
             if (loc1 <= n && loc2 > n && get<2>(cur) >= m)
             {
