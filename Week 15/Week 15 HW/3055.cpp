@@ -16,6 +16,7 @@ pair<ll, ll> finish;
 int dx[] = {-1, 0, 1, 0};
 int dy[] = {0, 1, 0, -1};
 ll r, c;
+bool check;
 
 void bfs()
 {
@@ -29,26 +30,24 @@ void bfs()
 
         for (int i = 0; i < w_size; i++)
         {
-            ll nx_water = water.front().first;
-            ll ny_water = water.front().second;
+            ll cur_water_x = water.front().first;
+            ll cur_water_y = water.front().second;
             water.pop();
 
             for (int j = 0; j < 4; j++)
             {
-                ll nx = nx_water + dx[j];
-                ll ny = ny_water + dy[j];
+                ll nx = cur_water_x + dx[j];
+                ll ny = cur_water_y + dy[j];
 
-                if (0 <= nx && nx < r && 0 <= ny && ny < c)
-                {
-                    if (arr[nx][ny] == '.')
-                    {
-                        arr[nx][ny] = '*';
-                        water.push({nx, ny});
-                    }
-                }
-                else
+                if (nx < 0 || nx >= r || ny < 0 || ny >= c)
                 {
                     continue;
+                }
+
+                if (arr[nx][ny] == '.')
+                {
+                    arr[nx][ny] = '*';
+                    water.push({nx, ny});
                 }
             }
         }
@@ -57,32 +56,31 @@ void bfs()
 
         for (int i = 0; i < h_size; i++)
         {
-            ll nx_hedge = hedge.front().first;
-            ll ny_hedge = hedge.front().second;
+            ll cur_hedge_x = hedge.front().first;
+            ll cur_hedge_y = hedge.front().second;
             hedge.pop();
 
-            if (nx_hedge == finish.first && ny_hedge == finish.second)
+            if (cur_hedge_x == finish.first && cur_hedge_y == finish.second)
             {
-                cout << visited[nx_hedge][ny_hedge] - 1 << '\n';
+                cout << visited[cur_hedge_x][cur_hedge_y] - 1 << '\n';
+                check = true;
                 return;
             }
 
             for (int j = 0; j < 4; j++)
             {
-                ll nx = nx_hedge + dx[i];
-                ll ny = ny_hedge + dy[i];
+                ll nx = cur_hedge_x + dx[j];
+                ll ny = cur_hedge_y + dy[j];
 
-                if (0 <= nx && nx < r && 0 <= ny && ny < c)
-                {
-                    if (arr[nx][ny] != '*' && visited[nx][ny] == 0 && arr[nx][ny] != 'X')
-                    {
-                        arr[nx][ny] = arr[nx_hedge][ny_hedge] + 1;
-                        hedge.push({nx, ny});
-                    }
-                }
-                else
+                if (nx < 0 || nx >= r || ny < 0 || ny >= c)
                 {
                     continue;
+                }
+
+                if (arr[nx][ny] != '*' && arr[nx][ny] != 'X' && visited[nx][ny] == 0 )
+                {
+                    visited[nx][ny] = visited[cur_hedge_x][cur_hedge_y] + 1;
+                    hedge.push({nx, ny});
                 }
             }
         }
@@ -105,13 +103,11 @@ int main()
             {
                 start = make_pair(i, j);
             }
-
-            if (arr[i][j] == 'D')
+            else if (arr[i][j] == 'D')
             {
                 finish = make_pair(i, j);
             }
-
-            if (arr[i][j] == '*')
+            else if (arr[i][j] == '*')
             {
                 water.push({i, j});
             }
@@ -119,6 +115,11 @@ int main()
     }
 
     bfs();
+
+    if (!check)
+    {
+        cout << "KAKTUS" << '\n';
+    }
 
     return 0;
 }
