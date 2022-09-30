@@ -19,8 +19,8 @@ W일 경우 건너뜀.
 아닐 경우 continue 하기
 */
 
-// 컴파일 안되는중
-// 오류 못찾고 있는중
+// while (!qt.empty()) 무한 루프
+// 추측: Exit code가 없어서
 
 queue<tuple<int, int, int>> qt;
 char arr[51][51];
@@ -35,6 +35,7 @@ void bfs(int x, int y)
     fill(&cnt[0][0], &cnt[50][51], 0);
     fill(&check[0][0], &check[50][51], false);
 
+
     if (arr[x][y] == 'W')
     {
         return;
@@ -46,7 +47,7 @@ void bfs(int x, int y)
 
         while (!qt.empty())
         {
-
+            cout << "here" << '\n';
             tuple<int, int, int> cur = qt.front();
             qt.pop();
 
