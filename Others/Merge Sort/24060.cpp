@@ -8,61 +8,60 @@ using namespace std;
 typedef long long ll;
 typedef unsigned long long llu;
 
-int arr[500001];
-int res[500001];
-int n, m, cnt;
+vector<int> A(500005);
+vector<int> res(500005);
+int n, k, cnt;
 
-void merges(int left, int right)
+void merge(int left, int right)
 {
-    int mid = (left + right) / 2;
+    int mid = (left+right)/2;
     int i = left;
     int j = mid + 1;
-    int k = left;
+    int t = 0;
 
-    while (i <= mid && j <= right)
+    while (i <= j && j <= right)
     {
-        if (arr[i] > arr[j])
+        if (A[i] <= A[j])
         {
-            res[k++] = arr[j++];
+            res[t++] = A[i++];
         }
         else
         {
-            res[k++] = arr[i++];
+            res[t++] = A[j++];
         }
     }
 
-    if (i > mid)
+    while (i <= j)
     {
-        while (j <= right)
-        {
-            res[k++] = arr[j++];
-        }
-    }
-    else
-    {
-        while (i <= mid)
-        {
-            res[k++] = arr[i++];
-        }
+        res[t++] = A[i++];
     }
 
-    cnt += (right - left + 1);
-    if (cnt > 0 && cnt >= m)
+    while (j <= right)
     {
-        cout << res[m - cnt + right - left] << '\n';
-        cnt = -1;
+        res[t++] = A[j++];
+    }
+
+    i = left;
+    t = 0;
+
+    while (i <= right)
+    {
+        A[i++] = res[t++];
+        if (++cnt == k)
+        {
+            cout << res[t - 1] << '\n';
+        }
     }
 }
 
-void partition(int left, int right)
+void merge_sort(int left, int right)
 {
-    int mid;
-    while (left < right)
+    if (left < right)
     {
-        mid = (left + right) / 2;
-        partition(left, mid);
-        partition(mid + 1, right);
-        merges(left, right);
+        int mid = (left + right) / 2;
+        merge_sort(left, mid);
+        merge_sort(mid + 1, right);
+        merge(left, right);
     }
 }
 
@@ -70,13 +69,18 @@ int main()
 {
     ios_base::sync_with_stdio(false), cin.tie(nullptr);
 
-    cin >> n >> m;
+    cin >> n >> k;
     for (int i = 0; i < n; i++)
     {
-        cin >> arr[i];
+        cin >> A[i];
     }
 
-    partition(0, n - 1);
+    merge_sort(0, n - 1);
+
+    if (cnt < k)
+    {
+        cout << "-1" << '\n';
+    }
 
     return 0;
 }
