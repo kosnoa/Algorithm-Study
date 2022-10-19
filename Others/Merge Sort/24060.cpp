@@ -8,8 +8,8 @@ using namespace std;
 typedef long long ll;
 typedef unsigned long long llu;
 
-vector<int> A(500005);
-vector<int> res(500005);
+int A[500005];
+int res[500005];
 int n, k, cnt;
 
 void merge(int left, int right)
@@ -19,7 +19,7 @@ void merge(int left, int right)
     int j = mid + 1;
     int t = 0;
 
-    while (i <= j && j <= right)
+    while (i <= mid && j <= right)
     {
         if (A[i] <= A[j])
         {
@@ -31,7 +31,7 @@ void merge(int left, int right)
         }
     }
 
-    while (i <= j)
+    while (i <= mid)
     {
         res[t++] = A[i++];
     }
