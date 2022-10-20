@@ -19,7 +19,7 @@ void merge(int left, int right)
     int j = mid + 1;
     int t = 0;
 
-    while (i <= j && j <= right)
+    while (i <= mid && j <= right)
     {
         if (A[i] <= A[j])
         {
