@@ -14,22 +14,22 @@ int main()
 {
     ios_base::sync_with_stdio(false), cin.tie(nullptr);
 
-    int a, b, c;
-    cin >> a >> b >> c;
+    int n, m, k;
+    cin >> n >> m >> k;
+    int res = n + m + k;
     
-    if (a+b+c < 100)
+    if (res < 100)
     {
-        int tmp = min(a, b, c);
 
-        if (tmp == a)
+        if (n < m && n < k)
         {
             cout << "Soongsil" << '\n';
         }
-        else if (tmp == b)
+        else if (m < n && m < k)
         {
             cout << "Korea" << '\n';
         }
-        else
+        else if (k < n && k < m)
         {
             cout << "Hanyang" << '\n';
         }
