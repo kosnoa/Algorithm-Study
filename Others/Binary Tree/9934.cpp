@@ -6,16 +6,28 @@ Study Purpose
 #pragma GCC("unroll-loops")
 #include <bits/stdc++.h>
 using namespace std;
-#define VPRT(x, type) copy(x.begin(), x.end(), ostream_iterator<type>(cout, " "))
 typedef long long ll;
 typedef unsigned long long llu;
 
 int k, s, arr[1024];
-vector<int> v[11];
+int res[11][1025];
 
 void triversal(int start, int end, int depth)
 {
-    v[depth].push_back(arr[(start + end) / 2]);
+    int a = 0;
+    while (1)
+    {
+        if (res[depth][a] == 0)
+        {
+            int tmp = floor((start + end) / 2) - 1;
+            res[depth][a] = arr[tmp];
+            break;
+        }
+        else
+        {
+            a++;
+        }
+    }
 
     if (start == end)
     {
@@ -38,11 +50,17 @@ int main()
         cin >> arr[i];
     }
 
-    triversal(1, s, 1);
+    triversal(1, s, 0);
 
-    for (int i = 1; i <= k; i++)
+    for (int i = 0; i < k; i++)
     {
-        VPRT(v[i], int);
+        int tmp = pow(2, i);
+
+        for (int j = 0; j < tmp; j++)
+        {
+            cout << res[i][j] << ' ';
+        }
+
         cout << '\n';
     }
 
