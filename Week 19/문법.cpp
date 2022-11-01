@@ -9,28 +9,21 @@ using namespace std;
 typedef long long ll;
 typedef unsigned long long llu;
 
-int check [10000001];
-
-void bfs(int n)
+template<typename T1, typename T2>
+T1 add(T1 x, T2 y)
 {
-    queue<int> q;
-    q.push(n);
-
+    return x + y;
 }
+
+
 
 int main()
 {
     ios_base::sync_with_stdio(false), cin.tie(nullptr);
 
-    int T;
-    cin >> T;
-    while(T--) { 
-        int n;
-        cin >> n;
-        bfs(n);
-        
-        memset(check, 0, sizeof(check));
-    }    
+    cout << add(10, 20) << '\n';
+    cout << add(3.1, 1.5) << '\n';
+    cout << add(10, 3.14) << '\n';
 
     return 0;
 }
