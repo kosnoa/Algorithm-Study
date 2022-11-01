@@ -1,5 +1,6 @@
 /* Code By kosnoa
 GitHub : kosnoa */
+// 인접행렬
 
 #pragma GCC optimize("Ofast")
 #pragma GCC("unroll-loops")
