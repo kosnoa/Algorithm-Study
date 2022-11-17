@@ -1,15 +1,14 @@
 /* Code By kosnoa
 GitHub : kosnoa */
 
-
 #pragma GCC optimize("Ofast")
-#pragma GCC ("unroll-loops")
+#pragma GCC("unroll-loops")
 #include <bits/stdc++.h>
 using namespace std;
 typedef long long ll;
 typedef unsigned long long llu;
-ll arr[15005];
-ll n, m, l, r, sum, cnt;
+vector<ll> v;
+ll n, m, l, r = 1, cnt;
 
 /*
 힌트:
@@ -22,7 +21,7 @@ ll n, m, l, r, sum, cnt;
 반례
 19 30989
 
-21762 2407 5723 10306 25266 21414 3568 11724 
+21762 2407 5723 10306 25266 21414 3568 11724
 16256 24129 20308 31044 5224 1744 30731 20272 31920 280 7195
 
 정답: 1  (5723+25266)
@@ -37,35 +36,26 @@ int main()
 
     for (int i = 0; i < n; i++)
     {
-        cin >> arr[i];
+        ll a;
+        cin >> a;
+        v.push_back(a);
     }
 
-    while (l < n)
+    while (l <= r && r < n)
     {
-        if (sum > m)
+        if (v[l] + v[r] == m)
         {
-            sum -= arr[l];
-            l++;
+            cnt++;
         }
-        else if (sum < m)
+
+        if (r == n - 1)
         {
-            if (r < n)
-            {
-                sum += arr[r]; 
-                r++;
-            }
-            else
-            {
-                sum -= arr[l];
-                l++;
-            }
-            
+            l++;
+            r = l + 1;
         }
         else
         {
-           cnt++;
-           sum -= arr[l];
-           l++; 
+            r++;
         }
     }
 
