@@ -7,8 +7,8 @@ GitHub : kosnoa */
 using namespace std;
 typedef long long ll;
 typedef unsigned long long llu;
-ll n, m, l, r, sum, cnt, len = -1;
-vector<ll> v;
+ll n, m, l, r, sum, len;
+ll arr[100005];
 
 int main()
 {
@@ -18,54 +18,38 @@ int main()
 
     for (ll i = 0; i < n; i++)
     {
-        ll tmp;
-        cin >> tmp;
-        v.push_back(tmp);
+        cin >> arr[i];
     }
 
-    while (l <= r)
+    len = n + 1;
+
+    while (r <= n)
     {
-        if (r == n-1)
+        if (sum < m)
         {
-            sum -= v[l];
-            l++;
-
-            if (sum == m && len == r-l)
-            {
-                cnt++;
-            }
-            else if (sum == m && len > r-l)
-            {
-                len = r-l;
-                cnt=1;
-            }
-        }
-
-        if (sum > m)
-        {
-            sum -= v[l];
-            l++;
-        }
-        else if (sum < m)
-        {
-            if (r < n)
-            {
-                sum += v[r];
-                r++;
-            }
-            else
-            {
-                sum -= v[l];
-                l++;
-            }
+            sum += arr[r];
+            r++;
         }
         else
         {
-            
+            if (len >= r - l)
+            {
+                len = r - l;
+            }
+
+            sum -= arr[l];
+            l++;
         }
     }
 
-    cout << cnt << '\n';
+    if (len == n + 1)
+    {
+        cout << 0 << '\n';
+    }
+    else
+    {
+        cout << len << '\n';
+    }
 
     return 0;
 }
