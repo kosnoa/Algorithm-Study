@@ -26,24 +26,21 @@ int main()
 
     sort(v.begin(), v.end());
 
-    while (l <= r && r < n)
-    {
-        if (abs(abs(v[l]) - abs(v[r])) < val)
-        {
-            val = abs(abs(v[l]) - abs(v[r]));
-            
-            p = make_pair(v[l], v[r]);
-        }
+    r = v.size()-1;
 
-        if(r==n-1)
+    while (l != r)
+    {
+        if (abs(abs(v[r]) - abs(v[l])) < val)
         {
-            l++;
-            r = l + 1;
+            val = abs(abs(v[r]) - abs(v[l]));
+            
+            p = make_pair(v[r], v[l]);
         }
         else
         {
-            r++;
+            r--;
         }
+        
     }
 
     cout << p.first << ' ' << p.second << '\n';
