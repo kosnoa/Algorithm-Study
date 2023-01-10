@@ -8,7 +8,7 @@ using namespace std;
 typedef long long ll;
 typedef unsigned long long llu;
 vector<ll> v;
-ll n, l, r = 1, val = 2000000002;
+ll n, l, r, val = 2000000002;
 pair<ll, ll> p;
 
 int main()
@@ -26,22 +26,34 @@ int main()
 
     sort(v.begin(), v.end());
 
-    r = v.size()-1;
 
-    while (l != r)
+    r = n-1;
+
+    while (l < r)
     {
-        if (abs(abs(v[r]) - abs(v[l])) < val)
+        ll sum = v[l] + v[r];
+
+        if (val > abs(sum))
         {
-            val = abs(abs(v[r]) - abs(v[l]));
-            
-            p = make_pair(v[r], v[l]);
+            val = abs(sum);
+            p = make_pair(v[l], v[r]);
+        }
+
+        if (sum == 0)
+        {
+            break;
+        }   
+
+        if (sum < 0)
+        {
+            l++;
         }
         else
         {
             r--;
         }
-        
     }
+
 
     cout << p.first << ' ' << p.second << '\n';
 
