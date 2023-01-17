@@ -9,7 +9,7 @@ using namespace std;
 typedef long long ll;
 typedef unsigned long long llu;
 vector<int> v;
-bool check[1005];
+bool check[2005];
 int n;
 
 int main()
