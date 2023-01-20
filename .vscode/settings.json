@@ -68,6 +68,7 @@
         "typeindex": "cpp",
         "typeinfo": "cpp",
         "valarray": "cpp",
-        "ec_b.C": "cpp"
+        "ec_b.C": "cpp",
+        "optional": "cpp"
     }
 }
