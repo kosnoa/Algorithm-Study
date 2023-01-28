@@ -8,7 +8,7 @@ using namespace std;
 typedef long long ll;
 typedef unsigned long long llu;
 vector<int> v;
-int n, k, l, cnt;
+int n, k, l, r, cnt = 1000007;
 
 int main()
 {
@@ -19,52 +19,37 @@ int main()
     {
         int tmp;
         cin >> tmp;
-        v.push_back(tmp);
-    }
-
-    while (l < n)
-    {
-        int tmp = 0;
-        int r = l;
-        bool check = false;
-        while (tmp < k)
-        {
-            if (r >= n)
-            {
-                check = true;
-                break;
-            }
-
-            if (tmp + v[r] > n)
-            {
-                break;
-            }
-            else
-            {
-                tmp += v[r];
-                r++;
-            }
-        }
-
-        if (check)
-        {
-            l++;
-            continue;
-        }
-
-        if (tmp == k) 
-        {
-            cnt++, l++;
-        }
-        else 
-        {
-            l++;
-        }
-
         
+        if (tmp == 1)
+        {
+            v.push_back(i);
+        }
     }
 
-    cout << cnt << '\n';
+    l = 0;
+    r = k-1;
+
+    while (r < v.size()) 
+    {
+        int tmp = v[r] - v[l] + 1;
+
+        if (cnt > tmp)
+        {
+            cnt = tmp;
+        }
+        l++, r++;
+    }
+
+    if (v.empty() || v.size() < k)
+    {
+        cout << -1 << '\n';
+    }
+    else
+    {
+        cout << cnt << '\n';
+    }
+
+    
 
     return 0;
 }
