@@ -7,7 +7,7 @@ GitHub : kosnoa */
 using namespace std;
 typedef long long ll;
 typedef unsigned long long llu;
-int n, m, cnt;
+ll n, m, cnt;
 
 int main()
 {
@@ -17,24 +17,22 @@ int main()
     // save[j] % m == save[i] % m
 
     cin >> n >> m;
-    vector<ll> v(n);
-    vector<ll> save(n + 1);
-
-    for (auto& i : v)
+    vector<ll> v(m);
+    ll sum = 0;
+    for (int i = 0; i < n; i++)
     {
-        cin >> i;
+        int tmp;
+        cin >> tmp;
+        sum += tmp;
+        v[sum % m]++;
     }
 
-    for (int i = 1; i <= n; i++)
+    for (auto i : v)
     {
-        save[i] = v[i - 1] + save[i - 1];
+        cnt += i * (i - 1) / 2;
     }
 
-    
-
-
-
-    cout << cnt << '\n';
+    cout << v[0] + cnt << '\n';
 
     return 0;
 }
