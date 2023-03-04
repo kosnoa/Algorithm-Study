@@ -10,6 +10,7 @@ typedef unsigned long long llu;
 int n, m, k;
 vector<pair<ll, ll>> graph[10001];
 ll d[10005][25];
+ll ans = 1e15;
 
 /*
 3 3 1
@@ -33,24 +34,26 @@ void dijkstra()
         int cur = get<1>(pq.top());
         int cnt = get<2>(pq.top());
         pq.pop();
+        if (d[cur][cnt] < dist)
+        {
+            continue;
+        }
 
         for (int i = 0; i < graph[cur].size(); i++)
         {
+            int node = graph[cur][i].first;
             ll cost = dist + graph[cur][i].second;
 
-            if (cost < d[graph[cur][i].first][cnt])
+            if (cost < d[node][cnt])
             {
-                d[graph[cur][i].first][cnt] = cost;
-                cout << "A. " << graph[cur][i].first << " " << cost << ' ' << cnt << '\n';
-                pq.push({-cost, graph[cur][i].first, cnt});
+                d[node][cnt] = cost;
+                pq.push({-cost, node, cnt});
             }
 
-            if (dist < d[graph[cur][i].first][cnt] && cnt < k)
+            if (dist < d[node][cnt + 1] && cnt + 1 <= k)
             {
-                int tmp = cnt + 1;
-                d[graph[cur][i].first][cnt] = dist;
-                cout << "B. " << graph[cur][i].first << " " << dist << ' ' << tmp << '\n';
-                pq.push({-dist, graph[cur][i].first, tmp});
+                d[node][cnt + 1] = dist;
+                pq.push({-dist, node, cnt + 1});
             }
         }
     }
@@ -61,7 +64,7 @@ int main()
     ios_base::sync_with_stdio(false), cin.tie(nullptr);
 
     cin >> n >> m >> k;
-    for (int i = 0; i < n; i++)
+    for (int i = 0; i < m; i++)
     {
         int a, b, c;
         cin >> a >> b >> c;
@@ -69,11 +72,16 @@ int main()
         graph[b].push_back({a, c});
     }
 
-    fill(&d[0][0], &d[10004][25], 1e9);
+    fill(&d[0][0], &d[10004][25], 1e15);
 
     dijkstra();
 
-    cout << d[n][k] << '\n';
+    for (int i=0; i<=k; i++)
+    {
+        ans = min(ans, d[n][i]);
+    }
+
+    cout << ans << '\n';
 
     return 0;
 }
