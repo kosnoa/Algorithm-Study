@@ -8,7 +8,7 @@ GitHub : kosnoa */
 using namespace std;
 typedef long long ll;
 typedef unsigned long long llu;
-vector<string> vs;
+vector<string> master;
 int dx[] = {-1, 0, 1, 0};
 int dy[] = {0, -1, 0, 1};
 bool check[25][25];
@@ -31,7 +31,7 @@ void dfs(auto y, auto x)
             continue;
         }
 
-        if (vs[ny][nx] == '1' && !check[ny][nx])
+        if (master[ny][nx] == '1' && !check[ny][nx])
         {
             dfs(ny, nx); // Recursion.
         }
@@ -42,9 +42,9 @@ int main()
 {
     cin >> n;
 
-    vs = vector<string>(n);
+    master = vector<string>(n);
 
-    for (auto& str : vs)
+    for (auto& str : master)
     {
         cin >> str;
     }
@@ -54,7 +54,7 @@ int main()
     {
         for (auto j=0; j<n; j++)
         {
-            if (vs[i][j] == '1' && !check[i][j])
+            if (master[i][j] == '1' && !check[i][j])
             {
                 c++;
                 dfs(i, j);
