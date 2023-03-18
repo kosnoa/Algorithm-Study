@@ -7,58 +7,65 @@ GitHub : kosnoa */
 using namespace std;
 typedef long long ll;
 typedef unsigned long long llu;
+int n, m;
+char c;
+deque<char> dq;
+stack<int> st;
 
 int main()
 {
     ios_base::sync_with_stdio(false), cin.tie(nullptr);
 
-    ll n, cnt = 0;
     cin >> n;
+    cin.ignore();
 
-    for (ll i = 2023; i <= n; i++)
+    for (int i = 1; i <= n; i++)
     {
-        deque<char> dq;
-        string str = to_string(i);
 
-        for (ll j = 0; j < str.size(); j++)
+        cin >> m;
+        if (m == 1)
         {
-            if (str[j] == '2')
-            {
-                if (dq.empty())
-                {
-                    dq.push_back(str[j]);
-                }
-                else
-                {
-                    if (dq.back() == '0' && dq.size() == 2)
-                    {
-                        dq.push_back(str[j]);
-                    }
-                }
-            }
-            else if (str[j] == '0'  && dq.size() == 1)
-            {
-                if (dq.back() == '2')
-                {
-                    dq.push_back(str[j]);
-                }
-            }
-            else if (str[j] == '3' && dq.size() == 3)
-            {
-                if (dq.back() == '2')
-                {
-                    dq.push_back(str[j]);
-                }
-            }
+            cin >> c;
+            dq.push_back(c);
+            st.push(1);
         }
-
-        if (dq.size() == 4)
+        else if (m == 2)
         {
-            cnt++;
+            cin >> c;
+            dq.push_front(c);
+            st.push(2);
+        }
+        else if (m == 3)
+        {
+            if (dq.empty())
+            {
+                continue;
+            }
+
+            if (st.top() == 1)
+            {
+                dq.pop_back();
+            }
+            else if (st.top() == 2)
+            {
+                dq.pop_front();
+            }
+            st.pop();
         }
     }
 
-    cout << cnt << '\n';
+    if (!dq.empty())
+    {
+        while (!dq.empty())
+        {
+            cout << dq.front();
+            dq.pop_front();
+        }
+    }
+    else
+    {
+        cout << 0;
+    }
 
     return 0;
 }
