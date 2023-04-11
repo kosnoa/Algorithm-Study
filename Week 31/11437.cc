@@ -7,17 +7,52 @@ GitHub : kosnoa */
 using namespace std;
 typedef long long ll;
 typedef unsigned long long llu;
-ll n, point;
+ll n;
 vector<int> vec[50001];
-vector<int> level[50001];
+bool check[50001];
+int parent[50001];
+int level[50001];
 
-void find_level(int a, int i)
+int LCA(int a, int b)
 {
-    level[a].push_back(i);
-
-    for (int j = 0; j < vec[a].size(); j++)
+    if (level[a] < level[b])
     {
-        find_level(vec[a][j], i + 1);
+        swap(a, b);
+    }
+
+    while (level[a] != level[b])
+    {
+        a = parent[a];
+    }
+
+    while(a != b) {
+        a = parent[a];
+        b = parent[b];
+    }
+
+    return a;
+}
+
+void bfs()
+{
+    queue<int> q;
+    check[1] = true;
+    q.push(1);
+
+    while (!q.empty())
+    {
+        int node = q.front();
+        q.pop();
+        for (int i = 0; i < vec[node].size(); i++)
+        {
+            if (!check[vec[node][i]])
+            {
+                level[vec[node][i]] = level[node] + 1;
+                parent[vec[node][i]] = node;
+                check[vec[node][i]] = true;
+                q.push(vec[node][i]);
+            }
+        }
     }
 }
 
@@ -34,20 +69,16 @@ int main()
         vec[v].push_back(u);
     }
 
-    find_level(1, 1);
-    for (int i = 1; i <= n; i++)
-    {
-        cout << level[i][0] << ' ';
-    }
+    bfs();
 
-    // int T;
-    // cin >> T;
-    // while (T--)
-    // {
-    //     point = 0;
-    //     int a, b;
-    //     cin >> a >> b;
-    // }
+    int T;
+    cin >> T;
+    while (T--)
+    {
+        int a, b;
+        cin >> a >> b;
+        cout << LCA(a, b) << '\n';
+    }
 
     return 0;
 }
