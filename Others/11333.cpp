@@ -8,8 +8,6 @@ typedef unsigned long long llu;
 ll dp[10001];
 ll mod = 1000000007;
 
-// 20% 틀렸습니다
-
 int main()
 {
     ios_base::sync_with_stdio(false), cin.tie(nullptr);
@@ -22,10 +20,10 @@ int main()
         ll n;
         cin >> n;
 
-        if (n % 3 != 0)
+        if (n % 3)
         {
             cout << "0" << '\n';
-            return 0;
+            continue;
         }
 
         dp[0] = 1;
