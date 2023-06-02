@@ -8,84 +8,40 @@ using namespace std;
 typedef long long ll;
 typedef unsigned long long llu;
 int n, x, res;
-struct tp
-{
-    int sum;
-    int a;
-    int b;
-};
-
-struct cmp
-{
-    bool operator()(const tp &p1, const tp &p2)
-    {
-        return p1.sum < p2.sum;
-    }
-};
-priority_queue<tp, vector<tp>, cmp> pq;
-
-/* 직접 만든 테케
-3 10000
-1 5
-9 2
-10 4
-
-답: 18
-
-3 7000
-10 10
-5 3
-5 2 
-
-답: 18
-
-반례:
-3 6000
-10 10
-20 21
-20 10
-
-답: 41
-
-*/
-
+int arr1[100001];
+int arr2[100001];
+vector<pair<ll, ll>> v;
 int main()
 {
     ios_base::sync_with_stdio(false), cin.tie(nullptr);
 
     cin >> n >> x;
-
-    for (int i = 0; i < n; i++)
+    for(int i = 0; i < n; i++)
     {
-        int a, b;
-        cin >> a >> b;
-        pq.push({a - b, a, b});
+        cin >> arr1[i] >> arr2[i];
+        v.push_back({arr1[i] - arr2[i], i});
+        res += arr2[i];
+        x -= 1000;
     }
 
-    for (int i = 0; i < n; i++)
+    sort(v.rbegin(), v.rend());
+
+    for(int i=0; i < n; i++)
     {
-        if (x - 5000 < 1000 * (n - i) || pq.top().a <= pq.top().b)
+        if(x < 4000)
         {
-            if (n - i == 1 && x == 5000 && pq.top().a > pq.top().b)
-            {
-                res += pq.top().a;
-                x -= 5000;
-            }
-            else
-            {
-                res += pq.top().b;
-                x -= 1000;
-            }
+            break;
         }
-        else
+
+        if(v[i].first > 0)
         {
-            res += pq.top().a;
-            x -= 5000;
+            res -= arr2[v[i].second];
+            res += arr1[v[i].second];
+            x -= 4000;
         }
-        pq.pop();
     }
 
-    cout << res << '\n';
+    cout << res;
 
     return 0;
 }
