@@ -18,10 +18,7 @@ void floyd()
         {
             for (int j = 1; j <= n; j++)
             {
-                if (arr[i][k] == 1 || arr[k][j] == 1)
-                {
-                    arr[i][j] == 1;
-                }
+                arr[i][j] = min(arr[i][j], arr[i][k] + arr[k][j]);
             }
         }
     }
@@ -37,6 +34,10 @@ int main()
         for (int j = 1; j <= n; j++)
         {
             cin >> arr[i][j];
+            if(arr[i][j] == 0)
+            {
+                arr[i][j] = 1e9;
+            }
         }
     }
 
@@ -46,7 +47,13 @@ int main()
     {
         for (int j = 1; j <= n; j++)
         {
-            cout << arr[i][j] << ' ';
+            if(arr[i][j] == 1e9)
+            {
+                cout << 0 << ' ';
+            }
+            else{
+                cout << 1 << ' ';
+            }
         }
         cout << '\n';
     }
