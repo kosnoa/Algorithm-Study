@@ -9,7 +9,7 @@ using namespace std;
 typedef long long ll;
 typedef unsigned long long llu;
 int n, m;
-int arr[501][501];
+bool arr[502][502];
 
 void floyd()
 {
@@ -19,16 +19,9 @@ void floyd()
         {
             for (int j = 1; j <= n; j++)
             {
-                if (i == j)
+                if (arr[i][k] && arr[k][j])
                 {
-                    continue;
-                }
-                else
-                {
-                    if (arr[i][k] + arr[k][j] < arr[i][j])
-                    {
-                        arr[i][j] = arr[i][k] + arr[k][j];
-                    }
+                    arr[i][j] = true;
                 }
             }
         }
@@ -40,17 +33,13 @@ int main()
     ios_base::sync_with_stdio(false), cin.tie(nullptr);
 
     cin >> n >> m;
-    fill(&arr[0][0], &arr[100][101], 1e9);
-    for (int i = 1; i <= n; i++)
-    {
-        arr[i][i] = 1;
-    }
+    fill(&arr[0][0], &arr[100][101], false);
 
     for (int i = 0; i < m; i++)
     {
         int a, b;
         cin >> a >> b;
-        arr[a][b] = 1;
+        arr[a][b] = true;
     }
 
     floyd();
@@ -59,16 +48,16 @@ int main()
 
     for (int i = 1; i <= n; i++)
     {
-        bool tmp = false;
+        int tmp = 0;
         for (int j = 1; j <= n; j++)
         {
-            if (arr[i][j] == 1e9 && arr[j][i] == 1e9)
+            if (arr[i][j] || arr[j][i])
             {
-                tmp = true;
+                tmp++;
             }
         }
 
-        if (!tmp)
+        if (tmp == n - 1)
         {
             res++;
         }
